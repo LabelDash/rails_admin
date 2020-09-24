@@ -112,12 +112,12 @@
 
     - if @model_config.list.limited_pagination
       .row
-        .col-md-6= paginate(@objects, theme: 'ra-twitter-bootstrap/without_count', total_pages: Float::INFINITY, remote: true)
+        .col-md-6= paginate(@objects.except(:order), theme: 'ra-twitter-bootstrap/without_count', total_pages: Float::INFINITY, remote: true)
 
     - elsif @objects.respond_to?(:total_count)
-      - total_count = @objects.total_count.to_i
+      - total_count = @objects.except(:order).total_count.to_i
       .row
-        .col-md-6= paginate(@objects, theme: 'ra-twitter-bootstrap', remote: true)
+        .col-md-6= paginate(@objects.except(:order), theme: 'ra-twitter-bootstrap', remote: true)
       .row
         .col-md-6= link_to(t("admin.misc.show_all"), index_path(params.merge(all: true)), class: "show-all btn btn-default clearfix pjax") unless total_count > 100 || total_count <= @objects.to_a.size
       .clearfix.total-count= "#{total_count} #{@model_config.pluralize(total_count).downcase}"
