@@ -71,7 +71,7 @@ module RailsAdmin
       end
 
       reversed_sort = (field ? field.sort_reverse? : model_config.list.sort_reverse?)
-      {sort: column, sort_reverse: (params[:sort_reverse] == reversed_sort.to_s)}
+      {sort: column, sort_reverse: (params[:sort_reverse] == reversed_sort.to_s), sort_extra: model_config.list.sort_extra}
     end
 
     def redirect_to_on_success

@@ -35,7 +35,14 @@ module RailsAdmin
         if options[:page] && options[:per]
           scope = scope.send(Kaminari.config.page_method_name, options[:page]).per(options[:per])
         end
-        scope = scope.reorder("#{options[:sort]} #{options[:sort_reverse] ? 'asc' : 'desc'}") if options[:sort]
+
+        if options[:sort]
+          sort = "#{options[:sort]} #{options[:sort_reverse] ? 'asc' : 'desc'}"
+        end
+
+        sort = [sort, options[:sort_extra]].select(&:present?).join(',')
+        scope = scope.reorder(sort)
+
         scope
       end
 
